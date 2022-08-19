@@ -6,7 +6,7 @@ authors = [
 description = "AWS presentation layer."
 name = "aws"
 requires-python = ">=3.7"
-version = "0.0"
+version = "0.1"
 
 [build-system]
 build-backend = "hatchling.build"
