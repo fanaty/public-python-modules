@@ -1,0 +1,13 @@
+[project]
+authors = [
+    { name = "Agna Lumi", email = "agna.lumi@gmail.com" },
+    { name = "Agustín Orlando", email = "agusavior@gmail.com" }
+]
+description = "AWS presentation layer."
+name = "aws"
+requires-python = ">=3.7"
+version = "0.0"
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
