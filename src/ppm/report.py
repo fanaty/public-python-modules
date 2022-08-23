@@ -1,7 +1,7 @@
 import traceback
 from typing import Any
 from ppm.mailgun import Mailgun
-from telegram import Telegram
+from ppm.telegram import Telegram
 from threading import Lock
 import logging
 
