@@ -23,3 +23,13 @@ The package contains modules. Here's an example import:
 ```py
 from ppm import test_module
 ```
+
+
+##### Hot to generate .pyi (stub) files
+
+```bash
+source .venv/bin/activate
+pip install mypy
+cd src
+stubgen ppm/*.py -o .
+```
