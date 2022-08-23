@@ -10,4 +10,7 @@ version = "0.7"
 
 [build-system]
 build-backend = "hatchling.build"
-requires = ["hatchling"]
+requires = [
+    "hatchling",
+    "requests==2.26.0",
+]
