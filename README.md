@@ -13,7 +13,7 @@
 ##### How to install a specific version
 
 Put this inside the requirements.txt of other project:
-`git+https://github.com/fanaty/public-python-modules.git@0.7`
+`git+https://github.com/fanaty/public-python-modules.git@1.0`
 
 You can also install from the **master** branch by omitting the `@<version>` portion.
 If **pyproject.toml** is in the root directory of the repository, you can omit the subdirectory bit.
