@@ -16,11 +16,11 @@ class Telegram:
     _token: Optional[str] = None
 
     @classmethod
-    def set_token(cls, token: str):
+    def set_token(cls, token: str) -> None:
         cls._token = token
     
     @classmethod
-    def send_message(cls, text: str):
+    def send_message(cls, text: str) -> None:
         # Pick only last 4000 chars
         text = text[-4000:]
 
@@ -30,7 +30,7 @@ class Telegram:
 
         # For each chat, run a Thread with the request to telegram-bot API
         for chat_id in ADMIN_CHAT_IDS:
-            def send_telegram_message_of_particular_user():
+            def send_telegram_message_of_particular_user() -> None:
                 try:
                     url = f'https://api.telegram.org/bot{token}/sendmessage'
                     payload = (
