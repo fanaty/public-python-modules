@@ -35,7 +35,7 @@ class Report:
     _footer: str = ''
 
     @classmethod
-    def setup(cls, telegram_token: str, username_smtp: str, password_smtp: str, footer: str):
+    def setup(cls, telegram_token: str, username_smtp: str, password_smtp: str, footer: str) -> None:
         # Setup telegram bot
         Telegram.set_token(token=telegram_token)
 
@@ -46,7 +46,7 @@ class Report:
         cls._footer = footer
 
     @classmethod
-    def _increment_and_get_times(cls, hashable_string: str):
+    def _increment_and_get_times(cls, hashable_string: str) -> Stringable:
         with Report._COUNTER_LOCK:
             # If the trace is new, register it in _reports
             if hashable_string not in Report._reports:
@@ -60,19 +60,19 @@ class Report:
 
 
     @classmethod
-    def exception(cls, exception: Exception, **kwargs: Stringable):
+    def exception(cls, exception: Exception, **kwargs: Stringable) -> None:
         trace = traceback.format_exc()
 
         Report.event(trace, max_times_to_report = REPORT_MAX_TELEGRAM_MESSAGES_BY_EXCEPTION, **kwargs)
 
 
     @classmethod
-    def event_once(cls, event: str, **kwargs: Stringable):
+    def event_once(cls, event: str, **kwargs: Stringable) -> None:
         cls.event(event, max_times_to_report = 1, **kwargs)
 
 
     @classmethod
-    def event_always(cls, event: str, **kwargs: Stringable):
+    def event_always(cls, event: str, **kwargs: Stringable) -> None:
         return cls.event(event, max_times_to_report=500, **kwargs)
 
     
@@ -124,5 +124,5 @@ class Report:
     
 
     @classmethod
-    def clear_cache(cls):
+    def clear_cache(cls) -> None:
         cls._reports = dict()
