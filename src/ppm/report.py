@@ -31,19 +31,31 @@ class Report:
     # String limit per info kwarg
     _STRING_LEN_LIMIT_PER_INFO_KWARG = 1600
 
-    # Footer
+    # Class attributes
     _footer: str = ''
+    _sender_email_address: str = ''
+    _sender_name: str = ''
 
     @classmethod
-    def setup(cls, telegram_token: str, username_smtp: str, password_smtp: str, footer: str) -> None:
+    def setup(cls,
+        telegram_token: str,
+        username_smtp: str,
+        password_smtp: str,
+        footer: str,
+        sender_email_address: str,
+        sender_name: str,
+        ) -> None:
         # Setup telegram bot
         Telegram.set_token(token=telegram_token)
 
         # Setup mailgun
         Mailgun.setup_credentials(username_smtp=username_smtp, password_smtp=password_smtp)
         
-        # Setup footer of each event body
+        # Store class variables
         cls._footer = footer
+        cls._sender_email_address = sender_email_address
+        cls._sender_name = sender_name
+
 
     @classmethod
     def _increment_and_get_times(cls, hashable_string: str) -> Stringable:
@@ -117,7 +129,13 @@ class Report:
 
             # May send email
             if send_email and SEND_MAILS:
-                Mailgun.send_email(to_addrs=REPORT_ADMIN_MAILS, subject=event, body=message)
+                Mailgun.send_email(
+                    to_addrs=REPORT_ADMIN_MAILS,
+                    subject=event,
+                    body=message,
+                    sender_email_address=cls._sender_email_address,
+                    sender_name=cls._sender_name,
+                )
 
             # Print it
             logging.debug(event)
