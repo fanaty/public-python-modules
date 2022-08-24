@@ -67,13 +67,13 @@ class Report:
 
 
     @classmethod
-    def event_once(cls, event: str, **kwargs: Stringable) -> None:
-        cls.event(event, max_times_to_report = 1, **kwargs)
+    def event_once(cls, event: str, send_email: bool = False, **kwargs: Stringable) -> None:
+        return cls.event(event, send_email=send_email, max_times_to_report = 1, **kwargs)
 
 
     @classmethod
-    def event_always(cls, event: str, **kwargs: Stringable) -> None:
-        return cls.event(event, max_times_to_report=500, **kwargs)
+    def event_always(cls, event: str, send_email: bool = False, **kwargs: Stringable) -> None:
+        return cls.event(event, send_email=send_email, max_times_to_report=500, **kwargs)
 
     
     @classmethod
