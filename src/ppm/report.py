@@ -1,13 +1,12 @@
 import traceback
-from typing import Any
+from typing import Any, Optional
+from ppm.freshdesk import Freshdesk
 from ppm.mailgun import Mailgun
 from ppm.telegram import Telegram
 from threading import Lock
 import logging
 
 # Config
-USE_TELEGRAM = True
-SEND_MAILS = True
 REPORT_MAX_TELEGRAM_MESSAGES_BY_EXCEPTION = 10
 REPORT_MAX_TELEGRAM_MESSAGES_BY_EVENT = 5
 REPORT_ADMIN_MAILS = [
@@ -35,6 +34,7 @@ class Report:
     _footer: str = ''
     _sender_email_address: str = ''
     _sender_name: str = ''
+    _freshdesk: Optional[Freshdesk]
 
     @classmethod
     def setup(cls,
@@ -56,6 +56,10 @@ class Report:
         cls._sender_email_address = sender_email_address
         cls._sender_name = sender_name
 
+
+    @classmethod
+    def use_freshdesk(cls, freshdesk: Freshdesk):
+        cls._freshdesk = freshdesk
 
     @classmethod
     def _increment_and_get_times(cls, hashable_string: str) -> Stringable:
@@ -123,12 +127,12 @@ class Report:
         message = f'{header}\n{info}\n{footer}'
 
         # Send it to the developer
-        if times <= max_times_to_report and USE_TELEGRAM:
+        if times <= max_times_to_report:
             # Send using telegram
             Telegram.send_message(message)
 
             # May send email
-            if send_email and SEND_MAILS:
+            if send_email:
                 Mailgun.send_email(
                     to_addrs=REPORT_ADMIN_MAILS,
                     subject=event,
@@ -137,9 +141,20 @@ class Report:
                     sender_name=cls._sender_name,
                 )
 
+                # Maybe create a ticket in freshdesk
+                freshdesk = cls._freshdesk
+                if freshdesk is not None:
+                    try:
+                        freshdesk.create_ticket(
+                            subject=event,
+                            description=message,
+                            email=cls._sender_name,
+                        )
+                    except Exception as e:
+                        logging.error(e, exc_info=True)
+
             # Print it
             logging.debug(event)
-    
 
     @classmethod
     def clear_cache(cls) -> None:
