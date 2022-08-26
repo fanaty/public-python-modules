@@ -3,7 +3,7 @@ authors = [
     { name = "Agna Lumi", email = "agna.lumi@gmail.com" },
     { name = "Agustín Orlando", email = "agusavior@gmail.com" }
 ]
-description = "AWS presentation layer."
+description = "Public useful modules for Fanaty."
 name = "ppm"
 requires-python = ">=3.6.9"
 version = "1.8"
