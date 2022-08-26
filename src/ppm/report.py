@@ -148,7 +148,7 @@ class Report:
                         freshdesk.create_ticket(
                             subject=event,
                             description=message,
-                            email=cls._sender_name,
+                            email=cls._sender_email_address,
                         )
                     except Exception as e:
                         logging.error(e, exc_info=True)
