@@ -4,7 +4,7 @@ from ppm.freshdesk import Freshdesk
 from ppm.mailgun import Mailgun
 from ppm.telegram import Telegram
 from threading import Lock
-import logging
+from ppm.log import setup_logging
 
 # Config
 REPORT_MAX_TELEGRAM_MESSAGES_BY_EXCEPTION = 10
@@ -23,6 +23,9 @@ Stringable = Any
 class Report:
     # Lock for count
     _COUNTER_LOCK = Lock()
+
+    # Logging logger
+    _log = setup_logging('Report', color='orange')
 
     # Register the amount of times that every trace did ocurred
     _reports: Stringable = dict()
@@ -151,10 +154,10 @@ class Report:
                             email=cls._sender_email_address,
                         )
                     except Exception as e:
-                        logging.error(e, exc_info=True)
+                        cls._log.error(e, exc_info=True)
 
             # Print it
-            logging.debug(event)
+            cls._log.debug(event)
 
     @classmethod
     def clear_cache(cls) -> None:

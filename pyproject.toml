@@ -13,4 +13,5 @@ build-backend = "hatchling.build"
 requires = [
     "hatchling",
     "requests==2.26.0",
+    "colorlog==4.1.0",
 ]

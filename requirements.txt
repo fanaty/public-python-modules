@@ -1,1 +1,5 @@
+# To do http requests
 requests==2.26.0
+
+# To add color to logging
+colorlog==4.1.0
