@@ -4,7 +4,7 @@ import colorlog
 BACKUP_COUNT = 150
 MAX_SIZE_B = 50 * (1024 ** 2)  # Logfile size before rollover
 COLORED_LOGFILE = True
-COLORS = ['black', 'red', 'green', 'yellow', 'blue', 'purple', 'cyan', 'white', 'orange']
+COLORS = ['black', 'red', 'green', 'yellow', 'blue', 'purple', 'cyan', 'white']
 OUTPUT_TO_STDOUT = True
 
 def setup_logging(module_name: str, color: str = 'white'):

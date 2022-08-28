@@ -25,7 +25,7 @@ class Report:
     _COUNTER_LOCK = Lock()
 
     # Logging logger
-    _log = setup_logging('Report', color='orange')
+    _log = setup_logging('Report')
 
     # Register the amount of times that every trace did ocurred
     _reports: Stringable = dict()
