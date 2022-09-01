@@ -1,6 +1,5 @@
 import traceback
 from typing import Any, Optional
-from ppm.freshdesk import Freshdesk
 from ppm.mailgun import Mailgun
 from ppm.telegram import Telegram
 from threading import Lock
@@ -37,7 +36,6 @@ class Report:
     _footer: str = ''
     _sender_email_address: str = ''
     _sender_name: str = ''
-    _freshdesk: Optional[Freshdesk]
 
     @classmethod
     def setup(cls,
@@ -58,11 +56,6 @@ class Report:
         cls._footer = footer
         cls._sender_email_address = sender_email_address
         cls._sender_name = sender_name
-
-
-    @classmethod
-    def use_freshdesk(cls, freshdesk: Freshdesk):
-        cls._freshdesk = freshdesk
 
     @classmethod
     def _increment_and_get_times(cls, hashable_string: str) -> Stringable:
@@ -143,18 +136,6 @@ class Report:
                     sender_email_address=cls._sender_email_address,
                     sender_name=cls._sender_name,
                 )
-
-                # Maybe create a ticket in freshdesk
-                freshdesk = cls._freshdesk
-                if freshdesk is not None:
-                    try:
-                        freshdesk.create_ticket(
-                            subject=event,
-                            description=message,
-                            email=cls._sender_email_address,
-                        )
-                    except Exception as e:
-                        cls._log.error(e, exc_info=True)
 
             # Print it
             cls._log.debug(event)
