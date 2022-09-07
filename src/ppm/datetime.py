@@ -29,6 +29,11 @@ def utc_datetime_from_ns(ns: int) -> datetime:
     return datetime.utcfromtimestamp(ns / (1000 * 1000 * 1000)).replace(tzinfo=pytz.UTC)
 
 
+# Returns the actual nanoseconds timestamp in the utc timezone
+def ns_of_utc_now() -> int:
+    return ns_of_datetime(utc_datetime_now())
+
+
 # Timestamp in nanoseconds, since epoch UNIX (in UTC timezone) to ISO string.
 # Returns a ISO similar to this one: '2022-01-17T04:33:40.679826+00:00'
 def iso_from_ns(ns: int) -> str:
