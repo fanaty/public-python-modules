@@ -1,5 +1,5 @@
 import traceback
-from typing import Any, Optional
+from typing import Any, Optional, Sequence
 from ppm.mailgun import Mailgun
 from ppm.telegram import Telegram
 from threading import Lock
@@ -8,11 +8,6 @@ from ppm.log import setup_logging
 # Config
 REPORT_MAX_TELEGRAM_MESSAGES_BY_EXCEPTION = 10
 REPORT_MAX_TELEGRAM_MESSAGES_BY_EVENT = 5
-REPORT_ADMIN_MAILS = [
-    'agusavior@gmail.com',  # Agusavior
-    'agna.lumi@gmail.com',  # Agna
-    'support@fanaty.com',   # Support
-]
 
 # Type alias
 # All objects are stringables so...
@@ -36,6 +31,7 @@ class Report:
     _footer: str = ''
     _sender_email_address: str = ''
     _sender_name: str = ''
+    _receiver_email_addresses: Sequence[str]
 
     @classmethod
     def setup(cls,
@@ -44,6 +40,7 @@ class Report:
         password_smtp: str,
         footer: str,
         sender_email_address: str,
+        receiver_email_addresses: Sequence[str],
         sender_name: str,
         ) -> None:
         # Setup telegram bot
@@ -56,6 +53,7 @@ class Report:
         cls._footer = footer
         cls._sender_email_address = sender_email_address
         cls._sender_name = sender_name
+        cls._receiver_email_addresses = receiver_email_addresses
 
     @classmethod
     def _increment_and_get_times(cls, hashable_string: str) -> Stringable:
@@ -130,7 +128,7 @@ class Report:
             # May send email
             if send_email:
                 Mailgun.send_email(
-                    to_addrs=REPORT_ADMIN_MAILS,
+                    to_addrs=cls._receiver_email_addresses,
                     subject=event,
                     body=message,
                     sender_email_address=cls._sender_email_address,
