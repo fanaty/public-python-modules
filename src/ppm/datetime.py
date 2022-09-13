@@ -1,9 +1,10 @@
-from datetime import datetime
-import pytz
+from datetime import datetime, timezone
+from typing import Union
+from decimal import Decimal
 import time
 import os
 
-EPOCH = datetime.utcfromtimestamp(0).replace(tzinfo=pytz.UTC)
+EPOCH = datetime.utcfromtimestamp(0).replace(tzinfo=timezone.utc)
 
 # Gives the timestamp (UNIX timestamp) in nanoseconds of the given datetime.
 def ns_of_datetime(dt: datetime) -> int:
@@ -25,8 +26,8 @@ def iso_from_datetime(dt: datetime):
 
 # Timestamp in nanoseconds, since epoch UNIX (in UTC timezone) to ISO string.
 # Returns datetime with tzinfo=tzinfo.UTC
-def utc_datetime_from_ns(ns: int) -> datetime:
-    return datetime.utcfromtimestamp(ns / (1000 * 1000 * 1000)).replace(tzinfo=pytz.UTC)
+def utc_datetime_from_ns(ns: Union[int, float, Decimal]) -> datetime:
+    return datetime.utcfromtimestamp(float(ns / (1000 * 1000 * 1000))).replace(tzinfo=timezone.utc)
 
 
 # Returns the actual nanoseconds timestamp in the utc timezone
@@ -36,7 +37,7 @@ def ns_of_utc_now() -> int:
 
 # Timestamp in nanoseconds, since epoch UNIX (in UTC timezone) to ISO string.
 # Returns a ISO similar to this one: '2022-01-17T04:33:40.679826+00:00'
-def iso_from_ns(ns: int) -> str:
+def iso_from_ns(ns: Union[int, float, Decimal]) -> str:
     return iso_from_datetime(utc_datetime_from_ns(ns))
 
 
@@ -58,4 +59,4 @@ def utc_datetime_of_file_creation(filepath: str) -> datetime:
 
 # Return now datetime with tzinfo = UTC
 def utc_datetime_now() -> datetime:
-    return datetime.utcnow().replace(tzinfo=pytz.UTC)
+    return datetime.utcnow().replace(tzinfo=timezone.utc)
