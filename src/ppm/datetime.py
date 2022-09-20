@@ -41,6 +41,11 @@ def iso_from_ns(ns: Union[int, float, Decimal]) -> str:
     return iso_from_datetime(utc_datetime_from_ns(ns))
 
 
+# Get datetime from timestamp in nanoseconds since EPOCH. It returns datetime in UTC timezone.
+def datetime_from_ns(ns: Union[int, float, Decimal]) -> datetime:
+    return datetime.utcfromtimestamp(float(ns / (1000 * 1000 * 1000))).replace(tzinfo=timezone.utc)
+
+
 # Get somethine like '+05:00', that represents the current timezone of the current device.
 def get_my_iso_timezone() -> str:
     return str.format('{0:+06.2f}', float(time.timezone) / 3600).replace('.', ':')

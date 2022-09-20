@@ -1,5 +1,5 @@
 import traceback
-from typing import Any, Optional, Sequence
+from typing import Any, Sequence
 from ppm.mailgun import Mailgun
 from ppm.telegram import Telegram
 from threading import Lock
