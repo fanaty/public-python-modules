@@ -56,7 +56,7 @@ class Report:
         cls._receiver_email_addresses = receiver_email_addresses
 
     @classmethod
-    def _increment_and_get_times(cls, hashable_string: str) -> Stringable:
+    def _increment_and_get_times(cls, hashable_string: str) -> int:
         with Report._COUNTER_LOCK:
             # If the trace is new, register it in _reports
             if hashable_string not in Report._reports:
