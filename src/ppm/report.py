@@ -35,20 +35,11 @@ class Report:
 
     @classmethod
     def setup(cls,
-        telegram_token: str,
-        username_smtp: str,
-        password_smtp: str,
         footer: str,
         sender_email_address: str,
         receiver_email_addresses: Sequence[str],
         sender_name: str,
         ) -> None:
-        # Setup telegram bot
-        Telegram.set_token(token=telegram_token)
-
-        # Setup mailgun
-        Mailgun.setup_credentials(username_smtp=username_smtp, password_smtp=password_smtp)
-        
         # Store class variables
         cls._footer = footer
         cls._sender_email_address = sender_email_address

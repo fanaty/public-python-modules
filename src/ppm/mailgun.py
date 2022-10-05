@@ -2,7 +2,8 @@ import email.utils
 import smtplib  
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from typing import Optional, Sequence
+from ppm.other import get_env_or_raise
+from typing import Sequence
 import logging
 
 # Config
@@ -13,21 +14,12 @@ MAIL_PORT = 587
 HOST = MAIL_HOST
 PORT = MAIL_PORT
 
-class Mailgun:
-    # Stored credentils
-    _username_smtp: Optional[str] = None
-    _password_smtp: Optional[str] = None
-
-    @classmethod
-    def setup_credentials(cls, username_smtp: str, password_smtp: str):
-        cls._username_smtp = username_smtp
-        cls._password_smtp = password_smtp
-    
+class Mailgun:    
     @classmethod
     def send_email(cls, to_addrs: Sequence[str], subject: str, body: str, sender_email_address: str, sender_name: str):
         # Get credentials
-        username_smtp = cls._username_smtp
-        password_smtp = cls._password_smtp
+        username_smtp = get_env_or_raise('USERNAME_SMTP')
+        password_smtp = get_env_or_raise('PASSWORD_SMTP')
 
         # Assert
         assert username_smtp and password_smtp, 'Please call setup_credentials Mailgun.setup_credentials first.'

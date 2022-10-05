@@ -1,7 +1,7 @@
-from typing import Optional
 import requests
 import logging
 from threading import Thread
+from ppm.other import get_env_or_raise
 
 # Config
 ADMIN_CHAT_IDS = [
@@ -11,22 +11,14 @@ ADMIN_CHAT_IDS = [
     80627582,   # Pablo Vannini
 ]
 
-class Telegram:
-    # Secret bot token
-    _token: Optional[str] = None
-
-    @classmethod
-    def set_token(cls, token: str) -> None:
-        cls._token = token
-    
+class Telegram:    
     @classmethod
     def send_message(cls, text: str) -> None:
         # Pick only last 4000 chars
         text = text[-4000:]
 
         # Get and assert token
-        token = cls._token
-        assert token, 'Call Telegram.set_token first.'
+        token = get_env_or_raise('TELEGRAM_BOT_TOKEN')
 
         # For each chat, run a Thread with the request to telegram-bot API
         for chat_id in ADMIN_CHAT_IDS:
