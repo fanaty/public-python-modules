@@ -1,7 +1,7 @@
 from threading import Lock
 import boto3
 import botocore.client
-from ppm.other import get_env_or_raise
+from ppm.env import get_env_or_raise
 
 # Source: https://stackoverflow.com/questions/60537479/aws-dynamodb-connection-pools-full-warning
 DYNAMODB_MAX_POOL_CONNECTIONS = 200

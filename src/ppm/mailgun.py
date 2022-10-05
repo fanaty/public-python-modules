@@ -2,7 +2,7 @@ import email.utils
 import smtplib  
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from ppm.other import get_env_or_raise
+from ppm.env import get_env_or_raise
 from typing import Sequence
 import logging
 

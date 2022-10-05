@@ -2,6 +2,7 @@ from typing import Callable, Dict, Tuple, Union
 from threading import Lock, Thread
 from ppm.report import Report
 from ppm.boto3 import Boto3Clients
+from ppm.log import setup_logging
 
 # This class has been made following this tutorial: https://www.learnaws.org/2020/12/17/aws-sqs-boto3-guide/
 class SQSClient:

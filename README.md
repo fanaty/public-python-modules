@@ -1,5 +1,23 @@
-# public-python-modules
+# Fanaty public-python-modules
 
+## Use public-python-modules
+
+In requirements add:
+
+```bash
+# Fanaty public-python-modules  (change the version numbet at the end)
+git+https://github.com/fanaty/public-python-modules.git@3.6
+```
+
+In python:
+
+```python
+from ppm.report import Report
+
+Report.event('Hi there!')
+```
+
+## Develop public-python-modules
 ##### How to push a new version
 0. Commit your code
 1. Update version in **pyproject.toml**

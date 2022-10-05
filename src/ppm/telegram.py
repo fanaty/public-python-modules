@@ -1,7 +1,7 @@
 import requests
 import logging
 from threading import Thread
-from ppm.other import get_env_or_raise
+from ppm.env import get_env_or_raise
 
 # Config
 ADMIN_CHAT_IDS = [
