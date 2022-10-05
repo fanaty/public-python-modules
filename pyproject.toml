@@ -6,12 +6,12 @@ authors = [
 description = "Public useful modules for Fanaty."
 name = "ppm"
 requires-python = ">=3.6.9"
-version = "3.8"
+version = "3.7"
 
 dependencies = [
     "requests==2.26.0",
     "colorlog==4.1.0",
-    "boto3==1.23.26",
+    "boto3<=1.23.26",
 ]
 
 [build-system]
@@ -21,5 +21,5 @@ requires = [
     "requests==2.26.0",
     "colorlog==4.1.0",
     "pytz==2021.3",
-    "boto3==1.23.26",
+    "boto3<=1.23.26",
 ]
