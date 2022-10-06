@@ -1,5 +1,4 @@
 import requests
-import logging
 from threading import Thread
 import os
 
@@ -13,13 +12,11 @@ ADMIN_CHAT_IDS = [
     80627582,   # Pablo Vannini
 ]
 
-# Module logger
-logger = setup_logging('telegram.py')
+class Telegram:
+    # Class variable
+    _warning_has_been_printed = False
+    logger = setup_logging('Telegram')
 
-# Global flag
-warning_has_been_printed = False
-
-class Telegram:    
     @classmethod
     def send_message(cls, text: str) -> None:
         # Pick only last 4000 chars
@@ -30,12 +27,11 @@ class Telegram:
 
         if not token:
             # Log
-            if not warning_has_been_printed:
-                logger.warn('Environment TELEGRAM_BOT_TOKEN is not defined. Will not use Telegram.')
+            if not cls._warning_has_been_printed:
+                cls.logger.warn('Environment TELEGRAM_BOT_TOKEN is not defined. Will not use Telegram.')
             
                 # Flag
-                global warning_has_been_printed
-                warning_has_been_printed = True
+                cls._warning_has_been_printed = True
 
             return
 
@@ -56,7 +52,7 @@ class Telegram:
                     # Raise exception if something went wrong
                     response.raise_for_status()
                 except Exception as e:
-                    logger.error(e, exc_info=True)
+                    cls.logger.error(e, exc_info=True)
             
             # Run it in a seperate thread
             Thread(target=send_telegram_message_of_particular_user, daemon=True).start()
