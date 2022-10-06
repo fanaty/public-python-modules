@@ -1,4 +1,4 @@
-from typing import Callable, Dict, List, Optional
+from typing import Dict
 from ppm.boto3 import Boto3Clients
 import os
 
@@ -8,10 +8,11 @@ class S3Client:
     def s3_client(cls):
         return Boto3Clients.get_s3_client()
 
-    # This downloads directly from s3.
-    # file_name: The local file that will be generated.
     @classmethod
     def download_file(cls, bucket_name: str, object_key: str, file_name: str):
+        '''This downloads directly from s3.
+        file_name: The local file that will be generated.
+        '''
         return cls.s3_client().download_file(bucket_name, object_key, file_name)
 
     @classmethod
@@ -37,12 +38,11 @@ class S3Client:
             }
         )
 
-
     @classmethod
     def upload_file(cls,
         file_path: str,
         bucket_name: str,
-        object_key: Optional[str]= None,
+        object_key: str,
         public_acl: bool=True,
         link_expiration_time: int = 24 * 60 * 60,
         ):
@@ -51,8 +51,8 @@ class S3Client:
         https://boto3.amazonaws.com/v1/documentation/api/latest/guide/s3-uploading-files.html
         https://boto3.amazonaws.com/v1/documentation/api/latest/guide/s3-presigned-urls.html
         file_name: The local filepath of the file you want to upload.
-        object_key example: 'cameras/01:23:45:67:89:AB/video0.mp4'
-
+        object_key is the path inside the bucket. For instance: 'cameras/01:23:45:67:89:AB/video0.mp4'
+        
         Returns the url of the object.
         If public_acl = True, the url will be public forever. Else, link_expiration_time (in seconds)
         will indicate how much time the url will be public.
