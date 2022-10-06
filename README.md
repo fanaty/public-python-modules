@@ -2,6 +2,26 @@
 
 ## Use public-python-modules
 
+### Environment variables
+
+Some environment variables should be loaded in order to use ppm modules.
+The variables you need to set up if you want all modules:
+```bash
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_DEFAULT_REGION=
+
+BACKBLAZE_ENDPOINT=
+BACKBLAZE_KEY_ID=
+BACKBLAZE_APPLICATION_KEY=
+
+TELEGRAM_BOT_TOKEN=
+
+USERNAME_SMTP=
+PASSWORD_SMTP=
+```
+
+### Add ppm module to your project
 In requirements add:
 
 ```bash
