@@ -1,0 +1,5 @@
+# Dot env (for load .env file)
+python-dotenv==0.19.2
+
+# Fanaty public python module
+git+https://github.com/fanaty/public-python-modules.git@3.9
