@@ -1,7 +1,9 @@
 import requests
 import logging
 from threading import Thread
-from ppm.env import get_env_or_raise
+import os
+
+from ppm.log import setup_logging
 
 # Config
 ADMIN_CHAT_IDS = [
@@ -11,6 +13,12 @@ ADMIN_CHAT_IDS = [
     80627582,   # Pablo Vannini
 ]
 
+# Module logger
+logger = setup_logging('telegram.py')
+
+# Global flag
+warning_has_been_printed = False
+
 class Telegram:    
     @classmethod
     def send_message(cls, text: str) -> None:
@@ -18,7 +26,18 @@ class Telegram:
         text = text[-4000:]
 
         # Get and assert token
-        token = get_env_or_raise('TELEGRAM_BOT_TOKEN')
+        token = os.getenv('TELEGRAM_BOT_TOKEN')
+
+        if not token:
+            # Log
+            if not warning_has_been_printed:
+                logger.warn('Environment TELEGRAM_BOT_TOKEN is not defined. Will not use Telegram.')
+            
+                # Flag
+                global warning_has_been_printed
+                warning_has_been_printed = True
+
+            return
 
         # For each chat, run a Thread with the request to telegram-bot API
         for chat_id in ADMIN_CHAT_IDS:
@@ -37,7 +56,7 @@ class Telegram:
                     # Raise exception if something went wrong
                     response.raise_for_status()
                 except Exception as e:
-                    logging.error(e, exc_info=True)
+                    logger.error(e, exc_info=True)
             
             # Run it in a seperate thread
             Thread(target=send_telegram_message_of_particular_user, daemon=True).start()
