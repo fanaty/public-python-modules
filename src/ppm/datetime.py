@@ -13,6 +13,10 @@ def ns_of_datetime(dt: datetime) -> int:
 
 # Convert a ISO string to a datetime
 def datetime_from_iso(iso: str) -> datetime:
+
+    # https://discuss.python.org/t/parse-z-timezone-suffix-in-datetime/2220/9
+    iso = iso.replace('Z', '+00:00')
+    
     dt = datetime.fromisoformat(iso)
     assert dt.tzinfo
     return dt
