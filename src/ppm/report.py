@@ -33,6 +33,11 @@ class Report:
     _sender_name: str = ''
     _receiver_email_addresses: Sequence[str]
 
+    class ExceptionWithInfo(Exception):
+        '''This is a useful Exception type if you want to attach information in the exception object.'''
+        def __init__(self, event: str, **kwargs: Stringable) -> None:
+            super().__init__(f'{event}\nException_info={kwargs}')
+
     @classmethod
     def setup(cls,
         footer: str,
