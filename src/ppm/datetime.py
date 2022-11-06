@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from typing import Union
+from typing import Union, Tuple
 from decimal import Decimal
 import time
 import os
@@ -69,3 +69,11 @@ def utc_datetime_of_file_creation(filepath: str) -> datetime:
 # Return now datetime with tzinfo = UTC
 def utc_datetime_now() -> datetime:
     return datetime.utcnow().replace(tzinfo=timezone.utc)
+
+
+# Extract the date and hour. Example: '2022-01-08' and '16:50:51.105836'
+def date_and_hour_from_ns(ns: int) -> Tuple[str, str]:
+    iso = iso_from_ns(ns)
+    day_str: str =   iso[0:10] 
+    hour_str: str = iso[11:-6]
+    return day_str, hour_str
