@@ -3,8 +3,14 @@ from typing import Union, Tuple
 from decimal import Decimal
 import time
 import os
+import pytz
+
 
 EPOCH = datetime.utcfromtimestamp(0).replace(tzinfo=timezone.utc)
+
+UTC_TIMEZONE = pytz.timezone('Etc/GMT-0')
+EST_TIMEZONE = pytz.timezone('US/Eastern')
+
 
 # Gives the timestamp (UNIX timestamp) in nanoseconds of the given datetime.
 def ns_of_datetime(dt: datetime) -> int:
@@ -23,8 +29,9 @@ def datetime_from_iso(iso: str) -> datetime:
 
 
 # tzinfo could be tzinfo.UTC, for instance
-def iso_from_datetime(dt: datetime):
+def iso_from_datetime(dt: datetime, as_timezone: pytz.BaseTzInfo = UTC_TIMEZONE):
     assert dt.tzinfo
+    dt = dt.astimezone(as_timezone)
     return dt.isoformat()
 
 
@@ -41,8 +48,8 @@ def ns_of_utc_now() -> int:
 
 # Timestamp in nanoseconds, since epoch UNIX (in UTC timezone) to ISO string.
 # Returns a ISO similar to this one: '2022-01-17T04:33:40.679826+00:00'
-def iso_from_ns(ns: Union[int, float, Decimal]) -> str:
-    return iso_from_datetime(utc_datetime_from_ns(ns))
+def iso_from_ns(ns: Union[int, float, Decimal], as_timezone: pytz.BaseTzInfo = UTC_TIMEZONE) -> str:
+    return iso_from_datetime(utc_datetime_from_ns(ns), as_timezone=as_timezone)
 
 
 # Get datetime from timestamp in nanoseconds since EPOCH. It returns datetime in UTC timezone.
@@ -74,6 +81,6 @@ def utc_datetime_now() -> datetime:
 # Extract the date and hour. Example: '2022-01-08' and '16:50:51.105836'
 def date_and_hour_from_ns(ns: int) -> Tuple[str, str]:
     iso = iso_from_ns(ns)
-    day_str: str =   iso[0:10] 
+    day_str: str =   iso[0:10]
     hour_str: str = iso[11:-6]
     return day_str, hour_str

@@ -6,6 +6,7 @@ colorlog==4.1.0
 
 # To use timezones
 pytz==2021.3
+types-pytz
 
 # Amazon utils
 boto3<=1.23.26
