@@ -29,16 +29,16 @@ def launch_in_parallel_and_join(f0: Callable[..., T], f1: Callable[..., U]) -> T
     def decorator(f: Callable[..., Any], is_first: bool):
         try:
             if is_first:
-                first_value_ref[0] = f()
+                first_value_ref.append(f())
             else:
-                second_value_ref[0] = f()
+                second_value_ref.append(f())
         except Exception as e:
             Report.exception(e, place=f.__name__)
 
             if is_first:
-                first_value_ref[0] = e
+                first_value_ref.append(e)
             else:
-                second_value_ref[0] = e
+                second_value_ref.append(e)
     thread0 = Thread(target=decorator(f0, True))
     thread1 = Thread(target=decorator(f1, False))
     thread0.start()
