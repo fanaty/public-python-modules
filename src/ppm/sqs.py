@@ -53,14 +53,15 @@ class SQSClient:
         return cls._from_queue_name_to_queue_url[queue_name]
 
     @classmethod
-    def send_message(cls, queue_name: str, message: str):
+    def send_message(cls, queue_name: str, message: str, delay_seconds: int = 0):
         sqs_client = cls.get_client()
 
         queue_url = cls.queue_url_from_queue_name(queue_name)
 
         response = sqs_client.send_message(
             QueueUrl=queue_url,
-            MessageBody=message
+            MessageBody=message,
+            DelaySeconds=delay_seconds,
         )
         assert response['ResponseMetadata']['HTTPStatusCode'] == 200
 

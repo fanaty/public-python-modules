@@ -28,10 +28,11 @@ def launch_in_parallel_and_join(f0: Callable[..., T], f1: Callable[..., U]) -> T
     second_value_ref: List[Union[U, Exception]] = []
     def decorator(f: Callable[..., Any], is_first: bool):
         try:
+            returned_value = f()
             if is_first:
-                first_value_ref.append(f())
+                first_value_ref.append(returned_value)
             else:
-                second_value_ref.append(f())
+                second_value_ref.append(returned_value)
         except Exception as e:
             Report.exception(e, place=f.__name__)
 
