@@ -3,16 +3,22 @@ import os
 
 
 class CorruptUtils:
-    class MoovAtomNotFound(Exception):
+    class CorruptException(Exception):
         pass
 
-    class FfprobeThrewNonZero(Exception):
+    class MoovAtomNotFound(CorruptException):
         pass
 
-    class VideoFileDoesNotExist(Exception):
+    class FfprobeThrewNonZero(CorruptException):
         pass
 
-    class CorruptedAndTooOld(Exception):
+    class VideoFileDoesNotExist(CorruptException):
+        pass
+
+    class CorruptedAndTooOld(CorruptException):
+        pass
+
+    class MissingStream(CorruptException):
         pass
 
     @classmethod
@@ -32,5 +38,7 @@ class CorruptUtils:
             # Video is not ok, so...
             if b'moov atom not found' in err:
                 raise cls.MoovAtomNotFound(str(err))
+            elif b'does not contain any stream' in err:
+                raise cls.MissingStream(str(err))
             else:
                 raise cls.FfprobeThrewNonZero(str(err))
