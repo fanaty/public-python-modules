@@ -6,10 +6,10 @@ from ppm.log import setup_logging
 
 # Config
 ADMIN_CHAT_IDS = [
-    1809111170, # Fede
-    43759228,   # Agusavior
+#    1809111170, # Fede
+#    43759228,   # Agusavior
     680640473,  # Agna
-    80627582,   # Pablo Vannini
+#    80627582,   # Pablo Vannini
 ]
 
 class Telegram:
