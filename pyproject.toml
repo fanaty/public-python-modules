@@ -6,7 +6,7 @@ authors = [
 description = "Public useful modules for Fanaty."
 name = "ppm"
 requires-python = ">=3.6.9"
-version = "5.0"
+version = "5.2"
 
 dependencies = [
     "requests==2.26.0",
