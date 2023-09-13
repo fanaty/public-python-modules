@@ -19,6 +19,8 @@ TELEGRAM_BOT_TOKEN=
 
 USERNAME_SMTP=
 PASSWORD_SMTP=
+
+ADMIN_CHAT_IDS=
 ```
 
 ### Add ppm module to your project

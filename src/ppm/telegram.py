@@ -5,12 +5,10 @@ import os
 from ppm.log import setup_logging
 
 # Config
-ADMIN_CHAT_IDS = [
-#    1809111170, # Fede
-#    43759228,   # Agusavior
-    680640473,  # Agna
-#    80627582,   # Pablo Vannini
-]
+AGNA_CHAT_ID = '680640473'
+
+# We get ADMIN_CHAT_IDS env, or we set AGNA_CHAT_ID if the env is not defined
+ADMIN_CHAT_IDS = os.getenv('ADMIN_CHAT_IDS', AGNA_CHAT_ID)
 
 class Telegram:
     # Class variable
@@ -25,6 +23,9 @@ class Telegram:
         # Get and assert token
         token = os.getenv('TELEGRAM_BOT_TOKEN')
 
+        # Create admin chat id list
+        admin_chat_ids_list_of_int = list(map(int, ADMIN_CHAT_IDS.split(',')))
+
         if not token:
             # Log
             if not cls._warning_has_been_printed:
@@ -36,7 +37,7 @@ class Telegram:
             return
 
         # For each chat, run a Thread with the request to telegram-bot API
-        for chat_id in ADMIN_CHAT_IDS:
+        for chat_id in admin_chat_ids_list_of_int:
             def send_telegram_message_of_particular_user() -> None:
                 try:
                     url = f'https://api.telegram.org/bot{token}/sendmessage'
