@@ -3,7 +3,7 @@ from typing import Any, Callable, TypeVar, Tuple, List, Union
 from ppm.report import Report
 
 
-def launch_in_other_thread(target: Callable[[], Any]):
+def launch_in_other_thread(target: Callable[[], Any]) -> Thread:
     def _target_with_report():
         try:
             target()
@@ -11,9 +11,10 @@ def launch_in_other_thread(target: Callable[[], Any]):
             Report.exception(e, place=target.__name__)
     
     # Launch
-    Thread(target=_target_with_report, daemon=True).start()
+    thread = Thread(target=_target_with_report, daemon=True)
+    thread.start()
     
-    return None
+    return thread
 
 # TypeVars
 T = TypeVar('T')
